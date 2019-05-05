@@ -51,21 +51,19 @@ export default class Instagram extends Component {
     if (url && url.startsWith(this.props.redirectUrl)) {
       const match = url.match(/(#|\?)(.*)/)
       const results = qs.parse(match[2])
-      this.hide()
-      if (results.access_token) {
-        // Keeping this to keep it backwards compatible, but also returning raw results to account for future changes.
-        this.props.onLoginSuccess(results.access_token, results)
-      } else if (results.code) {
-        this.props.onLoginSuccess(results.code, results);
-      } else {
-        this.props.onLoginFailure(results)
+      if (!results.code && !results.access_token) {
+        this.props.onLoginFailure(results);
+      }
+      if (webViewState.title) {
+        this.props.onLoginSuccess(webViewState.title);
+        this.onClose();
       }
     }
   }
 
   _onMessage(reactMessage) {
     try {
-      const json = JSON.parse(reactMessage.nativeEvent.data)
+      const json = JSON.parse(reactMessage.nativeEvent.data);
       if (json && json.error_type) {
         this.hide()
         this.props.onLoginFailure(json)
@@ -195,7 +193,6 @@ const styles = StyleSheet.create({
     top: 35,
     right: 5,
     backgroundColor: '#000',
-    borderRadius: 12,
     borderWidth: 2,
     borderColor: 'rgba(0, 0, 0, 0.4)',
     width: 30,
