@@ -16,6 +16,6 @@ declare module 'react-native-instagram-login' {
   }
 
   export default class InstagramLogin extends React.Component<InstagramLoginProps> {
-    show() {}
+    show(): void;
   }
 }
