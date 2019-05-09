@@ -43,7 +43,11 @@ export default class Instagram extends Component {
   }
 
   _onNavigationStateChange(webViewState) {
-    const { url } = webViewState
+    const { url, loading } = webViewState
+    if (loading) {
+      return
+    }
+
     const { key } = this.state
     if (webViewState.title === 'Instagram' && webViewState.url === 'https://www.instagram.com/') {
       this.setState({ key: key + 1 })
