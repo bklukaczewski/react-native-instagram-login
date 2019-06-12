@@ -58,7 +58,7 @@ export default class Instagram extends Component {
       if (!results.code && !results.access_token) {
         this.props.onLoginFailure(results);
       }
-      if (webViewState.title && !webViewState.title.includes('Instagram')) {
+      if (webViewState.title && !webViewState.title.toLowerCase().includes('instagram')) {
         this.props.onLoginSuccess(webViewState.title);
         this.onClose();
       }
